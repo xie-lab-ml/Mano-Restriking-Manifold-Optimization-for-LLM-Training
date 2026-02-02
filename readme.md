@@ -1,6 +1,8 @@
 # Mano: Manifold Normalized Optimizer
 
-The official code of "Mano: Restriking Manifold Optimization for LLM Training"
+The official code of "Mano: Restriking Manifold Optimization for LLM Training".
+
+Mano may be the best optimizer so far for LLM training.
 
 
 ### Example Usage:
