@@ -2,6 +2,17 @@
 
 The official code of "Mano: Restriking Manifold Optimization for LLM Training"
 
+### Demonstration
+
+| LLaMA-350M / Pile (10B Tokens) | LLaMA-1B (2.8B Tokens) / Pile |
+| :---: | :---: |
+| <img src="images/llama_350m_update_time.png" width="360" /> | <img src="images/llama_1b_update_time.png" width="360" /> |
+
+
+| Gradient Norm | Gradient Variance | Signal-to-Noise Ratio |
+| :---: | :---: | :---: |
+| <img src="images/llama_350m_grad_norm.png" width="300" /> | <img src="images/llama_350m_grad_variance.png" width="300" /> | <img src="images/llama_350m_grad_snr.png" width="300" /> |
+
 
 ### Example Usage:
 
