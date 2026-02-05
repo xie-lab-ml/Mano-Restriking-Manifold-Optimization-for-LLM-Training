@@ -37,3 +37,16 @@ adamw_params = [p for p in trainable_params if id(p) not in mano_ids]
 # Initialize the Mano Optimizer
 optimizer = Mano(mano_params=mano_params, lr=1e-3, wd=0.01, momentum=0.95, adamw_params=adamw_params, adamw_betas=(0.9, 0.95), adamw_eps=1e-8, nesterov=False)
 ```
+
+
+# Citing
+
+
+```
+@article{gu2026mano,
+  title = {Mano: Restriking Manifold Optimization for LLM Training},
+  author = {Gu, Yufei and Xie, Zeke},
+  journal={arXiv preprint arXiv:2601.23000},
+  year={2026}
+}
+```
