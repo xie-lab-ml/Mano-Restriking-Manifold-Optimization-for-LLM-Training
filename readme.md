@@ -2,7 +2,10 @@
 
 The official code of "Mano: Restriking Manifold Optimization for LLM Training".
 
-Mano may be the best optimizer so far for LLM training.
+By innovatively projecting the momentum onto the tangent space of model parameters and constraining it on a rotational Oblique manifold, we propose a novel, powerful, and efficient optimizer Mano that is the first to bridge the performance gap between manifold optimization and modern optimizers for training LLMs, to the best of our knowledge.
+
+In our experiments, Mano consistently and significantly outperforms AdamW and Muon even with less memory consumption and computational complexity.
+
 
 ### Demonstration
 
