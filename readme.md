@@ -1,5 +1,7 @@
 # Mano: Manifold Normalized Optimizer
 
+[![arXiv](https://img.shields.io/badge/arXiv-2601.23000-b31b1b.svg)](https://arxiv.org/abs/2601.23000)
+
 The official code of "Mano: Restriking Manifold Optimization for LLM Training".
 
 Mano may be the best optimizer so far for LLM training.
