@@ -85,6 +85,9 @@ class Mano(torch.optim.Optimizer):
             wd = group["wd"]
             eps = group["eps"]
             momentum = group["momentum"]
+            # Rotate manifold dimension once per optimizer step (k <- t mod 2),
+            # matching Algorithm 1 in the paper.
+            dim = int(group["steps"] % 2)
 
             # generate weight updates in distributed fashion
             for p in params:
@@ -108,7 +111,6 @@ class Mano(torch.optim.Optimizer):
 
                 ################################################################################
                 # 0. Rotating Dimension intermittently across each step
-                dim = int(group["steps"] % 2) 
                 
                 # 1. Project the momentum onto the Tangent Space
                 p_unit = p.data / torch.clamp(torch.norm(p.data, p=2, dim=dim, keepdim=True), min=eps)
@@ -125,7 +127,7 @@ class Mano(torch.optim.Optimizer):
                 adjusted_lr = lr * 0.2 * math.sqrt(g.shape[dim])
                 p.data.add_(u, alpha=-adjusted_lr)
 
-                group["steps"] += 1
+            group["steps"] += 1
                 
             ############################
             #       AdamW backup       #
