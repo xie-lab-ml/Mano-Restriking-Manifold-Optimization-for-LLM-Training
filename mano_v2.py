@@ -10,7 +10,7 @@ The Newton-Schulz iterations is replaced by a cheaper manifold normalization ope
 import math
 import torch
 
-class Mano(torch.optim.Optimizer):
+class Mano_v2(torch.optim.Optimizer):
     """
     Mano: Manifold Normalized Optimizer
 
@@ -112,11 +112,10 @@ class Mano(torch.optim.Optimizer):
 
                 ################################################################################
                 # 1. Project the momentum onto the Tangent Space
-                p_unit = p.data / torch.clamp(torch.norm(p.data, p=2, dim=dim, keepdim=True), min=eps)
-                tangent_momentum = g - (torch.sum(g * p_unit, dim=dim, keepdim=True) * p_unit)
+                tangent_mt = g - (torch.sum(g * p.data, dim=dim, keepdim=True) * p.data)
                 
                 # 2. Mapping to the Oblique Manifold via column/row-wise normalization.
-                u = tangent_momentum / torch.clamp(torch.norm(tangent_momentum, p=2, dim=dim, keepdim=True), min=eps)
+                u = tangent_mt / (torch.norm(tangent_mt, p=2, dim=dim, keepdim=True) + eps)
                 ################################################################################
 
                 # Apply weight decay
