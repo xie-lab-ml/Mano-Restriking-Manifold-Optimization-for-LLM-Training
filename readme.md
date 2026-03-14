@@ -9,6 +9,20 @@ By innovatively projecting the momentum onto the tangent space of a rotational O
 In our experiments, Mano consistently and significantly outperforms AdamW and Muon even with less memory consumption and computational complexity.
 
 
+### Core Implementation
+```python
+# 0. Rotate manifold dimension once per optimizer step (k <- t mod 2)
+dim = int(group["steps"] % 2)
+
+# 1. Compute the tangent momentum by projection onto the parameter-space manifold of the Oblique surface.
+p_unit = p.data / torch.clamp(torch.norm(p.data, p=2, dim=dim, keepdim=True), min=eps)
+tangent_momentum = g - (torch.sum(g * p_unit, dim=dim, keepdim=True) * p_unit)
+
+# 2. Map the tangent momentum to the Oblique Manifold with rotation between parameter axes (rows/columns for 2-D LLM params).
+u = tangent_momentum / torch.clamp(torch.norm(tangent_momentum, p=2, dim=dim, keepdim=True), min=eps)
+```
+
+
 ### Demonstration
 
 | LLaMA-350M / Pile (10B Tokens) | LLaMA-1B (2.8B Tokens) / Pile |
@@ -37,8 +51,29 @@ mano_ids = {id(p) for p in mano_params}
 adamw_params = [p for p in trainable_params if id(p) not in mano_ids]
 
 # Initialize the Mano Optimizer
-optimizer = Mano(mano_params=mano_params, lr=1e-3, wd=0.01, momentum=0.95, adamw_params=adamw_params, adamw_betas=(0.9, 0.95), adamw_eps=1e-8, nesterov=False)
+optimizer = Mano(mano_params=mano_params, lr=1e-3, wd=0.01, momentum=0.95, adamw_params=adamw_params, adamw_betas=(0.9, 0.95), adamw_eps=1e-8)
 ```
+
+## [2026.3.14] Mano_v2 
+
+We propose the following modifications to Mano improves pretraining performance from large-scale empirical studies.
+
+- Row/Column normalization of the Parameters are unnecessary, and removing it improves performance in final convergence.
+- Regarding the eps in momentum normalization, addition performs better than clamping.
+- Nesterov momentum performs slightly better under data scaling experiments, so its default value is now set to True.
+
+### Core Implementation
+
+```python
+tangent_mt = g - (torch.sum(g * p.data, dim=dim, keepdim=True) * p.data)
+u = tangent_mt / (torch.norm(tangent_mt, p=2, dim=dim, keepdim=True) + eps)
+```
+
+We have released the optimizer code in `mano_v2.py`. With all attempts to simplify Mano's implementation, we conclude that Mano's performance can be attributed to the two single operation: **tangent space projection** and **row/column normalization** of the gradient steps. 
+
+We believe the proposed paradigm have the potential to discard second momentum and expensive orthogonalization opertion in LLM pretraining, and enlighten new methodologies.
+
+
 
 ## Acknowledgements
 

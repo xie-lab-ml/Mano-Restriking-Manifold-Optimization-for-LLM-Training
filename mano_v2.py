@@ -32,7 +32,7 @@ class Mano_v2(torch.optim.Optimizer):
         eps=1e-8,
         mano_params=None,
         momentum=0.95,
-        nesterov=False,
+        nesterov=True,
         adamw_params=None,
         adamw_betas=(0.9, 0.95),
         adamw_eps=1e-8
