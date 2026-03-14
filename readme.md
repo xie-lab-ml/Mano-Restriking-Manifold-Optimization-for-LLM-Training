@@ -27,7 +27,7 @@ u = tangent_momentum / torch.clamp(torch.norm(tangent_momentum, p=2, dim=dim, ke
 
 | LLaMA-130M / Pile | LLaMA-350M / Pile | LLaMA-1B / Pile |
 | :---: | :---: | :---: |
-| <img src="images/pile_llama_130m_final_eval_perplexity_tokens_seen.png" width="360" /> | <img src="images/pile_llama_350m_final_eval_perplexity_tokens_seen.png" width="360" /> | <img src="images/pile_llama_1b_final_eval_perplexity_tokens_seen.png" width="360" /> |
+| <img src="images/pile_llama_130m_final_eval_perplexity_tokens_seen.png" width="300" /> | <img src="images/pile_llama_350m_final_eval_perplexity_tokens_seen.png" width="300" /> | <img src="images/pile_llama_1b_final_eval_perplexity_tokens_seen.png" width="300" /> |
 
 
 | Gradient Norm | Gradient Variance | Signal-to-Noise Ratio |
