@@ -77,7 +77,7 @@ We believe the proposed paradigm have the potential to discard second momentum a
 
 ## Acknowledgements
 
-We would like to thank the following contributors for their valuable help and contributions to this project: Jean Kaddour @JeanKaddour, Juanxi Tian @tianshijing. Their feedback, ideas, and code contributions have greatly improved this repository.
+We would like to thank the following contributors for their valuable help and contributions to this project: Jean Kaddour (@JeanKaddour), Juanxi Tian (@tianshijing). Their feedback, ideas, and code contributions have greatly improved this repository.
 
 ## Citation
 
