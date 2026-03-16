@@ -56,7 +56,7 @@ optimizer = Mano(mano_params=mano_params, lr=1e-3, wd=0.01, momentum=0.95, adamw
 
 ## [2026.3.14] Mano_v2 
 
-We propose the following modifications to Mano improves pretraining performance from large-scale empirical studies.
+We propose the following modifications to Mano to improve pretraining performance from large-scale empirical studies.
 
 - Row/Column normalization of the Parameters are unnecessary, and removing it improves performance in final convergence.
 - Regarding the eps in momentum normalization, addition performs better than clamping.
@@ -69,16 +69,16 @@ tangent_mt = g - (torch.sum(g * p.data, dim=dim, keepdim=True) * p.data)
 u = tangent_mt / (torch.norm(tangent_mt, p=2, dim=dim, keepdim=True) + eps)
 ```
 
-We have released the optimizer code in `mano_v2.py`. With all attempts to simplify Mano's implementation, we conclude that Mano's performance can be attributed to the two single operation: **tangent space projection** and **row/column normalization** of the gradient steps. 
+We have released the optimizer code in `mano_v2.py`. With all attempts to simplify Mano's implementation, we conclude that Mano's performance can be attributed to the two single operations: **axis-wise** **tangent projection** and **normalization** of the gradient steps. 
 - Axis-wise tangent projection may have been greatly overlooked in high-dimensional optimization, with the potential to generalize to other optimizers, including Muon (we will release experiment results on this soon).
 - Row-/Column-wise normalization has been noticed with great potential, but not yet demonstrated to replace the expensive Newton-Schulz iterations.
-- Applying the current update rule on both/all dimensions each step can further improve performance (than dimension-rotation across steps). However, this design choice does not alter Mano's core mechanism and training dynamics.
+- Applying the current update rule on both/all dimensions at each step can further improve performance (than dimension-rotation across steps). However, this design choice does not alter Mano's core mechanism and training dynamics.
 
 | LLaMA-1.3B / Pile | LLaMA-3B / Pile |
 | :---: | :---: |
 | <img src="images/pile_llama_1b_final_eval_perplexity_tokens_seen_2.png" width="300" /> | <img src="images/pile_llama_3b_final_eval_perplexity_tokens_seen.png" width="300" /> |
 
-We believe the proposed paradigm have the potential to discard second momentum and expensive orthogonalization opertion in LLM pretraining, and enlighten new methodologies.
+We believe the proposed paradigm has the potential to discard second momentum and expensive orthogonalization operation in LLM pretraining, and enlighten new methodologies.
 
 
 
