@@ -65,18 +65,27 @@ We propose the following modifications to Mano to improve pretraining performanc
 ### Core Implementation
 
 ```python
+dim = steps % 2
 tangent_mt = g - (torch.sum(g * p.data, dim=dim, keepdim=True) * p.data)
 u = tangent_mt / (torch.norm(tangent_mt, p=2, dim=dim, keepdim=True) + eps)
 ```
+
+### Demonstration
+| LLaMA-1.3B / Pile | LLaMA-3B / Pile |
+| :---: | :---: |
+| <img src="images/pile_llama_1b_final_eval_perplexity_tokens_seen_2.png" width="300" /> | <img src="images/pile_llama_3b_final_eval_perplexity_tokens_seen.png" width="300" /> |
 
 We have released the optimizer code in `mano_v2.py`. With all attempts to simplify Mano's implementation, we conclude that Mano's performance can be attributed to the two single operations: **axis-wise** **tangent projection** and **normalization** of the gradient steps. 
 - Axis-wise tangent projection may have been greatly overlooked in high-dimensional optimization, with the potential to generalize to other optimizers, including Muon (we will release experiment results on this soon).
 - Row-/Column-wise normalization has been noticed with great potential, but not yet demonstrated to replace the expensive Newton-Schulz iterations.
 - Applying the current update rule on both/all dimensions at each step can further improve performance (than dimension-rotation across steps). However, this design choice does not alter Mano's core mechanism and training dynamics.
+```python
+u = g - (torch.sum(g * p.data, dim=1 - dim, keepdim=True) * p.data)
+u = u - (torch.sum(u * p.data, dim=dim, keepdim=True) * p.data)
 
-| LLaMA-1.3B / Pile | LLaMA-3B / Pile |
-| :---: | :---: |
-| <img src="images/pile_llama_1b_final_eval_perplexity_tokens_seen_2.png" width="300" /> | <img src="images/pile_llama_3b_final_eval_perplexity_tokens_seen.png" width="300" /> |
+u = u / torch.clamp(torch.norm(u, p=2, dim=1 - dim, keepdim=True), min=eps)
+u = u / torch.clamp(torch.norm(u, p=2, dim=dim, keepdim=True), min=eps)
+```
 
 We believe the proposed paradigm has the potential to discard second momentum and expensive orthogonalization operation in LLM pretraining, and enlighten new methodologies.
 
