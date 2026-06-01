@@ -89,6 +89,22 @@ u = u / torch.clamp(torch.norm(u, p=2, dim=dim, keepdim=True), min=eps)
 
 We believe the proposed paradigm has the potential to discard second momentum and expensive orthogonalization operation in LLM pretraining, and enlighten new methodologies.
 
+## Related Resources
+
+### 🌟 ScalingOpt: Optimization Community
+
+We recommend the open research platform **ScalingOpt** for researchers interested in optimizer development, large-scale pretraining, and optimization benchmarking.
+
+🔗 https://tianshijing.github.io/ScalingOpt/
+
+ScalingOpt provides:
+
+- Curated collections of recent optimization papers and technical reports.
+- Benchmarking resources for evaluating modern optimizers.
+- Interactive visualizations of optimization dynamics.
+- Tutorials covering both optimization methods and contemporary large-scale training techniques.
+
+The platform is actively maintained and continuously updated with recent developments from the optimization research community.
 
 
 ## Acknowledgements
