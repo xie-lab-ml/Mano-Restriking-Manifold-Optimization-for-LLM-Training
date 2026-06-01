@@ -93,9 +93,7 @@ We believe the proposed paradigm has the potential to discard second momentum an
 
 ### 🌟 ScalingOpt: Optimization Community
 
-We recommend the open research platform **ScalingOpt** for researchers interested in optimizer development, large-scale pretraining, and optimization benchmarking.
-
-[ScalingOpt](https://tianshijing.github.io/ScalingOpt/)
+We recommend the open research platform **ScalingOpt** for researchers interested in optimizer development, large-scale pretraining, and optimization benchmarking. 🔗 [ScalingOpt](https://tianshijing.github.io/ScalingOpt/)
 
 ScalingOpt provides:
 
